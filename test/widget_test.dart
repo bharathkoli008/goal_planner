@@ -1,30 +1,76 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:goal_planner/features/target_setter/controller/target_controller.dart';
+import 'package:riverpod/riverpod.dart';
 
-import 'package:goal_planner/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  late ProviderContainer container;
+  late TargetController controller;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  setUp(() {
+    container = ProviderContainer();
+    addTearDown(container.dispose);
+    controller = container.read(targetControllerProvider.notifier);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  test('initial state is correct', () {
+    final state = container.read(targetControllerProvider);
+    expect(state.goalName, '');
+    expect(state.targetAmount, '');
+    expect(state.targetYear, '2024');
+    expect(state.inflationRate, '');
+    expect(state.phases, []);
+    expect(state.phaseInflations, ['', '', '']);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test('setGoalName updates goalName', () {
+    controller.setGoalName('Buy a House');
+    final state = container.read(targetControllerProvider);
+    expect(state.goalName, 'Buy a House');
+  });
+
+  test('setAmount updates targetAmount', () {
+    controller.setAmount('1000000');
+    final state = container.read(targetControllerProvider);
+    expect(state.targetAmount, '1000000');
+  });
+
+  test('setInflationRate updates inflationRate', () {
+    controller.setInflationRate('5');
+    final state = container.read(targetControllerProvider);
+    expect(state.inflationRate, '5');
+  });
+
+  test('setTargetYears updates targetYear and auto-generates phases', () {
+    controller.setInflationRate('5');
+    controller.setTargetYears('2026');
+    final state = container.read(targetControllerProvider);
+
+    expect(state.targetYear, '2026');
+    expect(state.phases.length, 3);
+    expect(state.phaseInflations.length, 3);
+    expect(state.phaseInflations, ['5', '5', '5']);
+  });
+
+  test('setPhaseInflation updates specific phase inflation', () {
+    controller.setPhaseInflation(0, '4.0');
+    controller.setPhaseInflation(2, '6.0');
+    final state = container.read(targetControllerProvider);
+
+    expect(state.phaseInflations.length, 3);
+    expect(state.phaseInflations[0], '4.0');
+    expect(state.phaseInflations[1], '');
+    expect(state.phaseInflations[2], '6.0');
+  });
+
+  test('autoGeneratePhases works as expected', () {
+    controller.setInflationRate('4.5');
+    controller.setAmount('500000');
+    controller.setGoalName('Education');
+    controller.setTargetYears('2030'); // this auto-generates phases
+    final state = container.read(targetControllerProvider);
+
+    expect(state.phases.length, 3);
+    expect(state.phaseInflations, ['4.5', '4.5', '4.5']);
   });
 }

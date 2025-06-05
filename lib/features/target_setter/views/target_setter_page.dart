@@ -17,7 +17,6 @@ class TargetSetterPage extends ConsumerStatefulWidget {
 class _TargetSetterPageState extends ConsumerState<TargetSetterPage> {
   late final TextEditingController goalController;
   late final TextEditingController amountController;
-  late final TextEditingController yearController;
   late final TextEditingController inflationController;
   late final List<(TextEditingController, TextEditingController)>
       phaseControllers;
@@ -58,7 +57,6 @@ class _TargetSetterPageState extends ConsumerState<TargetSetterPage> {
   void dispose() {
     goalController.dispose();
     amountController.dispose();
-    yearController.dispose();
     inflationController.dispose();
     for (var (a, b) in phaseControllers) {
       a.dispose();
@@ -119,6 +117,7 @@ class _TargetSetterPageState extends ConsumerState<TargetSetterPage> {
 
             CustomFocusTextField(
               controller: goalController,
+              key: const Key('goalName'),
               label: "Goal Name",
               onSubmitted: (val) => controller.setGoalName(val),
 
@@ -126,6 +125,7 @@ class _TargetSetterPageState extends ConsumerState<TargetSetterPage> {
 
             const SizedBox(height: 16),
             CustomFocusTextField(
+              key: const Key('targetAmount'),
               controller: amountController,
               keyboardType: TextInputType.number,
               label: "Target Amount (e.g., ₹1 Crore)",
@@ -135,6 +135,7 @@ class _TargetSetterPageState extends ConsumerState<TargetSetterPage> {
             const SizedBox(height: 16),
 
             CustomFocusDropdown<String>(
+              key: const Key('targetYear'),
               label: 'Target Year',
               value: state.targetYear,
               items: _yearDropdownItems(),
@@ -147,6 +148,7 @@ class _TargetSetterPageState extends ConsumerState<TargetSetterPage> {
 
             const SizedBox(height: 16),
             CustomFocusTextField(
+              key: const Key('inflationRate'),
               controller: inflationController,
               keyboardType: TextInputType.number,
               label: 'Inflation Rate (%)',

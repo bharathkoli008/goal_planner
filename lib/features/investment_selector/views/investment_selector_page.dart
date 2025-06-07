@@ -141,6 +141,7 @@ class InvestmentSelectorPage extends ConsumerWidget {
                               ),
                               const SizedBox(height: 8),
                               ElevatedButton(
+                                key: Key(routes[entry.key]!),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: (count > 0) ? appPurple.withOpacity(0.8) : appPurple,
                                   foregroundColor: Colors.white,

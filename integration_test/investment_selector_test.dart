@@ -40,64 +40,180 @@ void main() {
     // Fill inflation rate
     final inflationField = find.byKey(const Key('inflationRate'));
     expect(inflationField, findsOneWidget);
-    await tester.enterText(inflationField, '12');
-
+    await tester.ensureVisible(inflationField);
     await tester.pumpAndSettle();
+
+    await tester.tap(inflationField);
+    await tester.enterText(inflationField, '12');
+    await tester.pumpAndSettle();
+
 
     // Tap next to move to InvestmentSelectorPage
     final nextButton = find.text('Next');
     expect(nextButton, findsOneWidget);
+    await tester.ensureVisible(nextButton);
+    await tester.pumpAndSettle();
     await tester.tap(nextButton);
     await tester.pumpAndSettle();
 
-    // // === Investment Selector Page ===
-    // expect(find.text('Mutual Funds'), findsOneWidget);
+
+    // === Investment Selector Page ===
+    final investButton = find.byKey(const Key('/mutual-fund'));
+    await tester.tap(investButton);
+    await tester.pumpAndSettle();
+
+    // Fill target amount
+    final mfName = find.byKey(const Key('mf'));
+    expect(mfName, findsOneWidget);
+    await tester.enterText(mfName, 'kotak');
+    await tester.pumpAndSettle();
     // expect(find.text('Stocks'), findsOneWidget);
-    //
-    // // Tap add on one investment
-    // final addButton = find.widgetWithText(ElevatedButton, 'Add').first;
-    // await tester.tap(addButton);
-    // await tester.pumpAndSettle();
-    //
-    //
-    // // Navigate to InvestmentSelectorPage
-    // // Adjust this if you have a specific route
-    // final navButton = find.text('Next');
-    // expect(navButton, findsOneWidget);
-    // await tester.tap(navButton);
-    // await tester.pumpAndSettle();
-    //
-    // // Check if investment cards are present
-    // expect(find.text('Mutual Funds'), findsOneWidget);
+
+    final resultTile = find.byType(ListTile).first;
+    expect(resultTile, findsOneWidget);
+    await tester.tap(resultTile);
+    await tester.pumpAndSettle(); // wait for bottom sheet
+
+    final quantityField = find.widgetWithText(TextField, 'Units');
+    expect(quantityField, findsOneWidget);
+    await tester.enterText(quantityField, '7000');
+    await tester.pumpAndSettle();
+
+    final sipFields = find.widgetWithText(TextField, 'SIP (₹)');
+    expect(sipFields, findsNWidgets(3));
+
+    await tester.enterText(sipFields.at(0), '2000');
+    await tester.enterText(sipFields.at(1), '5000');
+    await tester.enterText(sipFields.at(2), '5000');
+    await tester.pumpAndSettle();
+
+    // Tap the Save button
+    final saveButton = find.widgetWithText(ElevatedButton, 'Save');
+    expect(saveButton, findsOneWidget);
+    await tester.tap(saveButton);
+    await tester.pumpAndSettle();
+
+
+    final submitMfs = find.text('Submit Selected Stocks');
+    expect(submitMfs, findsOneWidget);
+
+    await tester.tap(submitMfs);
+    await tester.pumpAndSettle();
+
+
+
+
+
+
+    final stockButton = find.byKey(const Key('/stocks'));
+    await tester.tap(stockButton);
+    await tester.pumpAndSettle();
+
+    // Fill target amount
+    final stockName = find.byKey(const Key('stock'));
+    expect(stockName, findsOneWidget);
+    await tester.enterText(stockName, 'eternal');
+    await tester.pumpAndSettle();
     // expect(find.text('Stocks'), findsOneWidget);
-    // expect(find.text('Provident Funds'), findsOneWidget);
-    // expect(find.text('Other Investments'), findsOneWidget);
+
+    final stockTile = find.byType(ListTile).first;
+    expect(stockTile, findsOneWidget);
+    await tester.tap(stockTile);
+    await tester.pumpAndSettle(); // wait for bottom sheet
+
+    final stockquantityField = find.widgetWithText(TextField, 'Quantity');
+    expect(stockquantityField, findsOneWidget);
+    await tester.enterText(stockquantityField, '7000');
+    await tester.pumpAndSettle();
+
+    final increaseFields = find.widgetWithText(TextField, 'Increase (%)');
+    expect(increaseFields, findsNWidgets(3));
+
+    await tester.enterText(increaseFields.at(0), '16');
+    await tester.enterText(increaseFields.at(1), '25');
+    await tester.enterText(increaseFields.at(2), '35');
+    await tester.pumpAndSettle();
+
+    // Tap the Save button
+    final stockSaveButton = find.widgetWithText(ElevatedButton, 'Save');
+    expect(stockSaveButton, findsOneWidget);
+    await tester.tap(stockSaveButton);
+    await tester.pumpAndSettle();
+
+    final submitStocks = find.text('Submit Selected Stocks');
+    expect(submitStocks, findsOneWidget);
+
+    await tester.tap(submitStocks);
+    await tester.pumpAndSettle();
+
+
+    final pfButton = find.byKey(const Key('/pf'));
+    await tester.tap(pfButton);
+    await tester.pumpAndSettle();
+
+
+    final corpusField = find.byKey(const Key('corpus'));
+    expect(corpusField, findsOneWidget);
+    await tester.enterText(corpusField, '1200000');
+
+    final annualField = find.byKey(const Key('annual'));
+    expect(annualField, findsOneWidget);
+    await tester.enterText(annualField, '650000');
+
+
+
+    final submitPfs = find.text('Submit');
+    expect(submitPfs, findsOneWidget);
+
+    await tester.tap(submitPfs);
+    await tester.pumpAndSettle();
+
+
+    final summaryButton = find.text('Next');
+    expect(summaryButton, findsOneWidget);
+    await tester.tap(summaryButton);
+    await tester.pumpAndSettle();
+
+
+
+
+
+
+
+    await tester.pump(const Duration(seconds: 5));
+
+
+    // final export = find.text('Export');
+    // expect(export, findsOneWidget);
     //
-    // // Tap the "Add" button for Mutual Funds
-    // final mfAddButton = find.widgetWithText(ElevatedButton, 'Add').at(0);
-    // await tester.tap(mfAddButton);
+    // await tester.tap(export);
     // await tester.pumpAndSettle();
-    //
-    // // Since it's a push, we should now be on the Mutual Fund input screen (dummy for test)
-    // expect(find.byType(Scaffold), findsWidgets); // Check a new scaffold exists
-    //
-    // // Go back
-    // await tester.pageBack();
-    // await tester.pumpAndSettle();
-    //
-    // // Test Clear button
-    // final clearButton = find.widgetWithText(ElevatedButton, 'Clear');
-    // expect(clearButton, findsOneWidget);
-    // await tester.tap(clearButton);
-    // await tester.pumpAndSettle();
-    //
-    // // Test Next button
-    // final nextButton2 = find.widgetWithText(ElevatedButton, 'Next');
-    // expect(nextButton, findsOneWidget);
-    // await tester.tap(nextButton2);
-    // await tester.pumpAndSettle();
-    //
-    // // Should navigate to summary page (or fail gracefully if empty)
-    // expect(find.text('Summary'), findsOneWidget);
+
+
+    final phase2Tab = find.text('Phase 2');
+    expect(phase2Tab, findsOneWidget);
+    await tester.tap(phase2Tab);
+    await tester.pumpAndSettle(); // Wait for animation
+
+
+    final phase3Tab = find.text('Phase 3');
+    expect(phase3Tab, findsOneWidget);
+    await tester.tap(phase3Tab);
+    await tester.pumpAndSettle(); // Wait for animation
+
+
+
+
+    await tester.pump(const Duration(seconds: 5));
+
+    final scrollable = find.byType(Scrollable).first; // or a specific scrollable
+    await tester.drag(scrollable, const Offset(0, -1000)); // scroll up (negative y)
+    await tester.pumpAndSettle();
+
+
+
+    await tester.pump(const Duration(seconds: 5));
+
+
   });
 }

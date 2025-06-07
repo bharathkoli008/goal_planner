@@ -88,9 +88,10 @@ class _MutualFundPageState extends ConsumerState<MutualFundPage> {
               ),
               Expanded(
                 child: CustomFocusTextField(
+                  key:const Key('mf'),
                   controller: _controller,
                   label: "Enter industry",
-                  onSubmitted: _searchIndustry,
+                  onChanged: _searchIndustry,
                 ),
               ),
               SizedBox(

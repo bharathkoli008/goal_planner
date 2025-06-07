@@ -119,7 +119,7 @@ class _TargetSetterPageState extends ConsumerState<TargetSetterPage> {
               controller: goalController,
               key: const Key('goalName'),
               label: "Goal Name",
-              onSubmitted: (val) => controller.setGoalName(val),
+              onChanged: (val) => controller.setGoalName(val),
 
             ),
 
@@ -152,7 +152,7 @@ class _TargetSetterPageState extends ConsumerState<TargetSetterPage> {
               controller: inflationController,
               keyboardType: TextInputType.number,
               label: 'Inflation Rate (%)',
-              onSubmitted: controller.setInflationRate,
+              onChanged: controller.setInflationRate,
             ),
             const SizedBox(height: 20),
              Text('Phases',

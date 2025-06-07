@@ -27,6 +27,7 @@ class PfInputPage extends ConsumerWidget {
         child: Column(
           children: [
             CustomFocusTextField(
+              key: const Key('corpus'),
               keyboardType: TextInputType.number,
                 label: "Total Corpus",
               onSubmitted: (value) =>
@@ -34,6 +35,7 @@ class PfInputPage extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             CustomFocusTextField(
+              key: const Key('annual'),
               keyboardType: TextInputType.number,
              controller: annual,
                 label: "Annual Contribution",
@@ -46,7 +48,7 @@ class PfInputPage extends ConsumerWidget {
                 controller: interest,
                 label: "Interest Rate (%)",
 
-              onSubmitted: (value) =>
+              onChanged: (value) =>
                   pfController.updateInterestRate(double.tryParse(value) ?? 0),
             ),
             const SizedBox(height: 32),
@@ -57,6 +59,7 @@ class PfInputPage extends ConsumerWidget {
 
             const Spacer(),
             ElevatedButton(
+              key: const Key('Submit'),
               onPressed: () {
                 final model = PfInputModel(
                   totalCorpus: pfData.totalCorpus,

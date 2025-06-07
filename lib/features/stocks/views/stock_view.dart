@@ -84,9 +84,10 @@ class _IndustrySearchPageState extends ConsumerState<IndustrySearchPage> {
               ),
               Expanded(
                 child: CustomFocusTextField(
+                  key: const Key('stock'),
                   controller: _controller,
                   label: "Enter industry",
-                  onSubmitted: _searchIndustry,
+                  onChanged: _searchIndustry,
                 ),
               ),
               SizedBox(

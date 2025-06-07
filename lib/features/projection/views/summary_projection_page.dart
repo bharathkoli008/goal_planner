@@ -16,7 +16,6 @@ import '../../stocks/models/stock_model.dart';
 import '../../target_setter/controller/target_controller.dart';
 import '../controller/export_chart.dart';
 import '../controller/summary_controller.dart';
-import 'area_chart.dart';
 
 class SummaryProjectionPage extends ConsumerWidget {
   final InvestmentData targetData;
